@@ -367,8 +367,8 @@ public class Connection {
     /**
      * Response for server-ping.
      */
-    private void pong(String target) {
-
+    void pong(String target) {
+	send("PONG :" + target);
     }
 
     private void quit() {

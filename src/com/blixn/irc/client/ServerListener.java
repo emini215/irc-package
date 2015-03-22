@@ -7,7 +7,7 @@ import java.io.IOException;
  * Created by emini on 17/09/14.
  * Copyright and stuff, you know!
  */
-public class ServerListener implements Runnable {
+class ServerListener implements Runnable {
 
     private Connection connection;
     private BufferedReader input;
@@ -21,7 +21,11 @@ public class ServerListener implements Runnable {
     public void run() {
         while (!connection.isClosed()) {
             try {
-                connection.messageRecieved(input.readLine());
+		String message = input.readLine();
+		if (message.startsWith("PING"))
+		    connection.pong(message.substring(6));
+		else
+		    connection.messageRecieved(message);
             } catch (IOException io) {
                 connection.errorOccured(io.getMessage());
             }
